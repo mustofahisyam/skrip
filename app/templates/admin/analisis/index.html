@@ -1,0 +1,177 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analisis/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analisis/style.css') }}">
+{% endblock %}
+
+
+{% block page_content %}
+
+
+<h2>Analisis</h2>
+<hr />
+<div id="exTab2">	
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#1" data-toggle="tab">Analisis Hirarkis</a>
+		</li>
+		<li>
+			<a href="#2" data-toggle="tab">Analisi Cluster</a>
+		</li>
+	</ul>
+
+	<div class="tab-content ">
+		<div class="tab-pane active" id="1">
+			<div id="menuHirarki">
+			<label id="judulForm">Proses yang berjalan</label>
+			<div class="row bs-wizard">
+				<div class="col-xs-2 bs-wizard-step complete" id="step0">
+                  <div class="text-center bs-wizard-stepnum"><label id="lb0" class="label label-success">Preparing</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+                <div class="col-xs-2 bs-wizard-step disabled" id="step1">
+                  <div class="text-center bs-wizard-stepnum"><label id="lb1" class="label label-default">Upload</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+                <div class="col-xs-2 bs-wizard-step disabled" id="step2"><!-- complete -->
+                  <div class="text-center bs-wizard-stepnum"><label id="lb2" class="label label-default">Preproses</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+                
+                <div class="col-xs-2 bs-wizard-step disabled" id="step3"><!-- complete -->
+                  <div class="text-center bs-wizard-stepnum"><label id="lb3" class="label label-default">Vektorisasi</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+                
+                <div class="col-xs-2 bs-wizard-step disabled" id="step4"><!-- active -->
+                  <div class="text-center bs-wizard-stepnum"><label id="lb4" class="label label-default">Clustering</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+                <div class="col-xs-2 bs-wizard-step disabled" id="step5"><!-- active -->
+                  <div class="text-center bs-wizard-stepnum"><label id="lb5" class="label label-default">Complete</label></div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+            </div>
+	        <form action="{{ url_for('analisis.index') }}" method="post" id="hirarkiForm" enctype=multipart/form-data>
+				<div class="form-group">
+					<label for="nama">Nama Vektor</label>
+					{{ form.nama(class_="form-control input-lg") }}
+				</div>
+				<div class="form-group">
+					<label for="filecsv">Pilih File</label>
+					<input type="file" name="file" id="filecsv" class="file">
+					<div class="input-group col-xs-12">
+						<input type="text" class="form-control input-lg" disabled>
+						<span class="input-group-btn">
+							<button class="browse btn btn-primary input-lg" type="button">Browse</button>
+						</span>
+					</div>
+				</div>
+				<div class="checkbox">
+				  	<label class="checkbox-inline"><input type="checkbox" value="" disabled checked>Stopwords</label>
+					<label class="checkbox-inline"><input type="checkbox" name="stemmer">Stemming</label>
+				</div>
+				<button type="submit" class="btn btn-default input-lg" style="float: right;">Analyze</button>
+			</form>
+
+			</div>
+			<label id="judulImg">Hasil Analisis</label>
+			<div id="hideResultHirarki">
+				<div class="row">
+			    <div class="col-md-6">
+			      <div class="thumbnail" style="padding-right: 20px;">
+			        <a id="vektorLink" href="" target="_blank">
+			          <img id="vektorImage" src="" alt="Lights" style="width:100%">
+			          <div class="caption">
+			            <p>Hasil Vektorisasi Data</p>
+			          </div>
+			        </a>
+			      </div>
+			    </div>
+			    <div class="col-md-6">
+			      <div class="thumbnail">
+			        <a id="suggestLink" href="" target="_blank">
+			          <img id="suggestImage" src="" alt="Nature" style="width:100%">
+			          <div class="caption">
+			            <p>Hasil Hirarkial Clustering</p>
+			          </div>
+			        </a>
+			      </div>
+			    </div>
+				</div>
+				<div class="row">
+				    <div class="alert alert-info" style="font-size: 17px;">
+			    		<strong>Info!</strong> Langkah selanjutnya adalah opsional, langkan ini untuk membuat garis
+			    			pada kordinat <strong>y</strong> untuk memberi saran dalam mengcluster data selanjutnya, anda
+			    			bisa langsung ke tahap berikutnya tanpa tahap ini 
+			  		</div>
+				    <form action="{{ url_for('analisis.klustering') }}" method="post" id="suggestForm">
+						<div class="form-group">
+							<label for="jumlah">Buat garis pada jarak</label>
+							<input type="text" class="form-control input-lg" name="jarak" id="jarak">
+						</div>
+						{{ form.submit(class_="btn btn-info input-lg") }}
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="2">
+			<form action="" method="post" id="clusterForm">
+				<div class="form-group">
+				  <label for="vektor">Select Vektor</label>
+				  <select class="form-control input-lg" id="vektor" name="vektor">
+				  </select>
+				</div>
+				<div class="form-group">
+					<label for="nama">Nama Model</label>
+					{{ form.nama(class_="form-control input-lg") }}
+				</div>
+				<div class="form-group">
+					<label for="jumlah">Jumlah Cluster</label>
+					{{ form.jumlah(class_="form-control input-lg") }}
+				</div>
+				<input class="btn btn-default input-lg" id="submitCluster" name="submitCluster" type="submit" value="Analyze">
+			</form>
+			<div class="row" id="hasilCluster">
+				<div class="col-md-9">
+					<fieldset class="scheduler-border">
+					<legend class="scheduler-border">Preview</legend>
+			        <a href="{{ url_for('static', filename='img/analisis/finishcluster.png') }}" target="_blank">
+			          <img src="{{ url_for('static', filename='img/analisis/finishcluster.png') }}" alt="Lights" class="expand">
+			          <div class="caption"> 
+			          </div>
+			        </a>
+			    </div>
+			    <div class="col-md-3">
+			    	<a href="{{url_for('main.index')}}">Go to Dashboard</a>
+			    	</fieldset>
+			    </div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static', filename='js/analisis/filein.js')}}"></script>
+<script src="{{url_for('static', filename='js/analisis/proses.js')}}"></script>
+{% endblock %}
+
+
+
+

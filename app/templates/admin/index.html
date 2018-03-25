@@ -1,0 +1,107 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block styles %}
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-0.12.9.min.css.css') }}"
+    rel="stylesheet" type="text/css">
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-widgets-0.12.9.min.css') }}"
+    rel="stylesheet" type="text/css">
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-tables-0.12.9.min.css') }}"
+    rel="stylesheet" type="text/css">
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/style.css') }}">
+{% endblock %}
+
+
+{% block page_content %}
+<h2>Dashboard</h2>
+<hr />
+{% if legenda: %}
+<div class="row">
+	<div class="col-sm-10 col-md-8">
+		{{ div|safe }}
+	</div>
+	<div class="col-sm-2 col-md-4" id="legend">
+		<form action="{{url_for('main.index')}}" method="post">
+			<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Legenda</legend>
+			<div class="row">
+				<div class="col-sm-4 col-md-6">
+					<label id="warna">Warna</label>
+				</div>
+				<div class="col-sm-8 col-md-6">
+					<label id="kunci">Kata Kunci</label>
+				</div>
+			</div>
+			<div class="row">
+				{% for i in legenda: %}
+				<div class="col-sm-4 col-md-6">
+					<div class="form-group">
+						<input type="color" name="cp{{i[1]}}" id="cp{{i[3]}}" class="form-control" value="{{i[4]}}">
+					</div>
+				</div>
+				<div class="col-sm-8 col-md-6">
+					<div class="form-group">
+						<input type="text" name="kc{{i[1]}}" id="kc{{i[3]}}" class="form-control" value="{{i[3]}}">
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			
+			<div class="row" id="uplegend">
+				<button type="submit" class="btn btn-block btn-default" id="submitup" name="submitup">Submit</button>
+			</div>
+
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+<br/>
+<div class="row">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Kelompok</th>
+				<th>Kunci N-gram</th>
+				<th>Pertanyaan(id)</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in range(count): %}
+				<tr>
+					<td>{{i}}</td>
+					<td>{{legenda[i][3]}}</td>
+					<td>
+						<ul>
+							{% for a in pertanyaan[i] %}
+								<li>{{ a[1] }}({{a[2]}})</li>
+							{% endfor %}
+						</ul>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<div class="alert alert-danger">
+  <strong>Info!</strong> Tidak ada data yang ditampilkan, silahkan ke menu <a href="{{ url_for('analisis.index') }}">analis</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+{% if legenda: %}
+{{ script|safe }}
+{% endif %}
+<script src="{{ url_for('static', filename='js/library/bokeh-0.12.9.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/library/bokeh-widgets-0.12.9.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/library/bokeh-tables-0.12.9.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,24 @@
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+
+.btn.btn-primary {
+  background-color: #5c4084;
+  border-color: #5c4084;
+  outline: none;
+}
+.btn.btn-primary:hover {
+  background-color: #442f62;
+  border-color: #442f62;
+}
+.btn.btn-primary:active, .btn.btn-primary:focus {
+  background-color: #684895;
+  border-color: #684895;
+}
+
+input[type="text"]:disabled {
+    background: #ffffff;
+}
+
+

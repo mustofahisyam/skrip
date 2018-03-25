@@ -1,0 +1,45 @@
+
+#adminlist {
+	margin-top: 50px;
+	margin-bottom: : 50px;
+}
+
+#adminlist h3 {
+  color : white;
+  background-color: #428bca;
+}
+
+#adminlist form {
+  padding-bottom: 50px;
+}
+
+#adminlist .nav-tabs {
+  margin-bottom: 50px;
+}
+
+
+/* Form Progress */
+#adminlist .bs-wizard {
+  margin-bottom: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border: solid 1px;
+  border-radius: 10px;
+  border-color: #D3D3D3;
+}
+
+table {
+	margin-top: 50px;
+}
+
+table thead tr th {
+	text-align: center;
+}
+
+table tbody tr td {
+	text-align: center;
+}
+
+
+
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rumah 2 in 1</title>
+    {% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/library/bootstrap.min.css') }}">
+    {% endblock %}
+</head>
+<body>
+
+</body>
+</html>
+
+
+{% block navbar %}
+<nav class="navbar navbar-inverse sidebar" role="navigation" style="position: fixed;">
+    <div class="container-fluid">
+        <img src="{{ url_for('static', filename='img/logo/logo.png') }}" class="img-responsive" alt="Cinque Terre">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% for x in session["linknya"] %}
+                <li ><a href="{{ url_for(x[1]) }}">{{x[0]}}<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Help?</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+<div class="main">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+        </div>
+        {% endfor %}
+        {% block page_content %}
+        {% endblock %}   
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/library/jquery.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/library/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/admin.js')}}"></script>
+{% endblock %}
+

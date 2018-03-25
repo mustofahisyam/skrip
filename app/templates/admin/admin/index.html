@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Admin - R21{% endblock %}
+
+{% block styles %}
+<link
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/style.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+<div id="adminlist">	
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#1" data-toggle="tab">List User</a>
+		</li>
+		<li>
+			<a href="#2" data-toggle="tab">Tambah User</a>
+		</li>
+	</ul>
+
+	<div class="tab-content ">
+		<div class="tab-pane active" id="1">
+			<table class="table table-striped table-bordered">
+			    <thead>
+			      <tr>
+			        <th>No</th>
+			        <th>Email</th>
+			        <th>Username</th>
+			        <th>Hak Akses</th>
+			        <th colspan="2">Action</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			 	  {% for row in user_role: %}
+			      <tr>
+			        <td>{{row.id}}</td>
+			        <td>{{row.email}}</td>
+			        <td>{{row.username}}</td>
+			        <td>{{row.name}}</td>
+			        <td><a href="#">
+			        	<img src="{{ url_for('static', filename='img/admin/edit.png') }}" width="32" height="32">
+			        </a></td>
+			        <td><a href="{{url_for('adminis.delete')}}?id={{row.id}}">
+			        	<img src="{{ url_for('static', filename='img/admin/delete.png') }}" width="32" height="32">
+			        </a></td>
+			      </tr>
+			      {% endfor %}
+			    </tbody>
+			</table>
+		</div>
+		<div class="tab-pane" id="2">
+			<form action="" method="post">
+				{{ form.csrf_token }}
+				<div class="form-group">
+					<label for="email">Email User</label>
+					{{ form.email(class_="form-control") }}
+				</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					{{ form.username(class_="form-control") }}
+				</div>
+				<div class="form-group">
+					<label for="password">Password User</label>
+					{{ form.password(class_="form-control") }}
+				</div>
+				<div class="form-group">
+				  <label for="role">Select Role</label>
+				  <select class="form-control" name="role_id">
+				  	{% for x in role %}
+				  		<option value="{{x.id}}">{{x.name}}</option>
+				  	{% endfor %}
+				  </select>
+				</div>
+				{{ form.submit(class_="btn btn-danger") }}
+			</form>
+		</div>
+	</div>
+	        
+</div>
+
+{% endblock %}

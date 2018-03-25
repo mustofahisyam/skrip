@@ -1,0 +1,61 @@
+{% extends "admin/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block styles %}
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-0.12.9.min.css.css') }}"
+    rel="stylesheet" type="text/css">
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-widgets-0.12.9.min.css') }}"
+    rel="stylesheet" type="text/css">
+<link
+    href="{{ url_for('static', filename='css/library/bokeh-tables-0.12.9.min.css') }}"
+    rel="stylesheet" type="text/css">
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hasil/style.css') }}">
+{% endblock %}
+
+
+{% block page_content %}
+<h2>Hasil</h2>
+<hr/>
+<div class="row" id="seleksi">
+	<form action="{{url_for('hasil.index')}}" method="post" id="clusterForm">
+		<div class="col-sm-2 col-md-4">
+			<div class="form-group">
+				<label for="vektor">Select Hasil</label>
+				<select class="form-control" id="model" name="model">
+					{% if model: %}
+						{% for x in model %}
+							<option value="{{x[1]}}">{{x[1]}}</option>
+						{% endfor %}
+					{% else %}
+						<option value="">Tidak ada data</option>
+					{% endif %}
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-1 col-md-2">
+			<input class="btn btn-default" id="submitCluster" name="submitCluster" type="submit" value="Pilih">
+		</div>
+	</form>
+
+</div>
+
+<div class="row" id="preview">
+	<img src="/static/img/analisis/cluster/{{nama}}.png">
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+{{ script|safe }}
+<script src="{{ url_for('static', filename='js/library/bokeh-0.12.9.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/library/bokeh-widgets-0.12.9.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/library/bokeh-tables-0.12.9.min.js') }}"></script>
+{% endblock %}
